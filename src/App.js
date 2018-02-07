@@ -78,7 +78,7 @@ class App extends Component {
             left: this.state.snakeHeadX,
             top: this.state.snakeHeadY,
             position: 'absolute',
-            backgroundColor: 'black',
+            backgroundColor: 'red',
           }}
         />
         {this.state.point}
