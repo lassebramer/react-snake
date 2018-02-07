@@ -1,42 +1,32 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
 import './App.css'
-
-function handleTeleport(obj) {
-  // RIGHT
-  if (obj.state.snakeHeadX > MAP_SIZE - SNAKE_SIZE) {
-    obj.setState({ snakeHeadX: 0 })
-  }
-  // LEFT
-  if (obj.state.snakeHeadX < 0) {
-    obj.setState({ snakeHeadX: MAP_SIZE - SNAKE_SIZE })
-  }
-  // BOTTOM
-  if (obj.state.snakeHeadY > MAP_SIZE - SNAKE_SIZE) {
-    obj.setState({ snakeHeadY: 0 })
-  }
-  // TOP
-  if (obj.state.snakeHeadY < 0) {
-    obj.setState({ snakeHeadY: MAP_SIZE - SNAKE_SIZE })
-  }
-}
+import {handleTeleport} from "./Teleport.js"
+import {handleDirection} from "./Direction.js"
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      point: 4,
       snakeHeadX: 0,
       snakeHeadY: 0,
       snakeDirection: 'RIGHT',
+      foodX: 50,
+      foodY: 50,
     }
+    
 
     setInterval(() => {
       handleDirection(this)
 
       handleTeleport(this)
-    }, 16)
+
+      pickLocationX(this)
+
+      pickLocationY(this)
+
+          }, 1000/10)
   }
+  
 
   componentWillMount() {
     document.addEventListener('keydown', event => {
@@ -81,33 +71,39 @@ class App extends Component {
             backgroundColor: 'red',
           }}
         />
+        <div
+          style={{
+            width: FOOD_SIZE,
+            height: FOOD_SIZE,
+            left: this.state.foodX,
+            top: this.state.foodY,
+            position: "absolute",
+            backgroundColor: "green",
+          }}
+        />
         {this.state.point}
       </div>
     )
   }
 }
-
+var scl = 20
+const SNAKE_SIZE = 1*scl
+const MAP_SIZE = 30*scl
+const FOOD_SIZE = 1*scl
+var col = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
+var row = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
 const RIGHT = 39
 const DOWN = 40
 const LEFT = 37
 const UP = 38
 
-const SNAKE_SIZE = 30
-const MAP_SIZE = 600
 
-function handleDirection(obj) {
-  if (obj.state.snakeDirection === 'RIGHT') {
-    obj.setState({ snakeHeadX: obj.state.snakeHeadX + 2 })
-  }
-  if (obj.state.snakeDirection === 'DOWN') {
-    obj.setState({ snakeHeadY: obj.state.snakeHeadY + 2 })
-  }
-  if (obj.state.snakeDirection === 'LEFT') {
-    obj.setState({ snakeHeadX: obj.state.snakeHeadX - 2 })
-  }
-  if (obj.state.snakeDirection === 'UP') {
-    obj.setState({ snakeHeadY: obj.state.snakeHeadY - 2 })
-  }
-}
-
+function pickLocationX(obj){
+  if(obj.state.snakeHeadX === 560 && obj.state.snakeHeadY === 0 ) {
+  obj.setState({foodX: 20*Math.floor (Math.random()*31 )});
+  }}
+function pickLocationY(obj){
+    if(obj.state.snakeHeadX === 560 && obj.state.snakeHeadY === 0 ) {
+    obj.setState({foodY: 20*Math.floor (Math.random()*31 )});
+    }}
 export default App
