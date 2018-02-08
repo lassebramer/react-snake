@@ -10,8 +10,9 @@ class App extends Component {
       snakeHeadX: 0,
       snakeHeadY: 0,
       snakeDirection: 'RIGHT',
-      foodX: 0,
-      foodY: 0,
+      foodX: 300,
+      foodY: 300,
+      points: 0, 
     }
     
 
@@ -20,12 +21,12 @@ class App extends Component {
 
       handleTeleport(this)
 
-      pickLocationX(this)
+      pickLocation(this)
 
-      pickLocationY(this)
-
+      show(this)
           }, 1000/15)
   }
+  
   
 
   componentWillMount() {
@@ -51,6 +52,7 @@ class App extends Component {
     })
   }
   render() {
+    
     return (
       <div
         style={{
@@ -59,6 +61,9 @@ class App extends Component {
           borderWidth: 2,
           borderColor: 'red',
           borderStyle: 'solid',
+          backgroundColor: "grey",
+          top: 50,
+          position: "absolute",
         }}
       >
         <div
@@ -81,8 +86,17 @@ class App extends Component {
             backgroundColor: "green",
           }}
         />
-        {this.state.point}
+        <div style={{
+          left:720,
+          position: "absolute",
+          top: 15,
+        }}
+        >{this.state.points} 
+        </div>
+        <h1> Score: </h1> 
+       
       </div>
+     
     )
   }
 }
@@ -94,14 +108,22 @@ const RIGHT = 39
 const DOWN = 40
 const LEFT = 37
 const UP = 38
+var startingPoints = 1
 
 
-function pickLocationX(obj){
+
+function pickLocation(obj){
   if(obj.state.snakeHeadX === obj.state.foodX && obj.state.snakeHeadY === obj.state.foodY ) {
   obj.setState({foodX: scl*Math.floor (Math.random()*30 )});
+  obj.setState({foodY: scl*Math.floor (Math.random()*30 )});
+  obj.setState({points: startingPoints++}) 
   }}
-function pickLocationY(obj){
-    if(obj.state.snakeHeadX === obj.state.foodY && obj.state.snakeHeadY === obj.state.foodY ) {
-    obj.setState({foodY: scl*Math.floor (Math.random()*30 )});
-    }}
+
+function show(obj){
+  return (obj.state.points);
+}
+
+
+
+
 export default App
