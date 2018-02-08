@@ -10,8 +10,8 @@ class App extends Component {
       snakeHeadX: 0,
       snakeHeadY: 0,
       snakeDirection: 'RIGHT',
-      foodX: 50,
-      foodY: 50,
+      foodX: 0,
+      foodY: 0,
     }
     
 
@@ -24,7 +24,7 @@ class App extends Component {
 
       pickLocationY(this)
 
-          }, 1000/10)
+          }, 1000/15)
   }
   
 
@@ -90,8 +90,6 @@ var scl = 20
 const SNAKE_SIZE = 1*scl
 const MAP_SIZE = 30*scl
 const FOOD_SIZE = 1*scl
-var col = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
-var row = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
 const RIGHT = 39
 const DOWN = 40
 const LEFT = 37
@@ -99,11 +97,11 @@ const UP = 38
 
 
 function pickLocationX(obj){
-  if(obj.state.snakeHeadX === 560 && obj.state.snakeHeadY === 0 ) {
-  obj.setState({foodX: 20*Math.floor (Math.random()*31 )});
+  if(obj.state.snakeHeadX === obj.state.foodX && obj.state.snakeHeadY === obj.state.foodY ) {
+  obj.setState({foodX: scl*Math.floor (Math.random()*30 )});
   }}
 function pickLocationY(obj){
-    if(obj.state.snakeHeadX === 560 && obj.state.snakeHeadY === 0 ) {
-    obj.setState({foodY: 20*Math.floor (Math.random()*31 )});
+    if(obj.state.snakeHeadX === obj.state.foodY && obj.state.snakeHeadY === obj.state.foodY ) {
+    obj.setState({foodY: scl*Math.floor (Math.random()*30 )});
     }}
 export default App
