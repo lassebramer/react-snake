@@ -12,7 +12,8 @@ class App extends Component {
       snakeDirection: 'RIGHT',
       foodX: 300,
       foodY: 300,
-      points: 0, 
+      points: 0,
+      tail: [],
     }
     
 
@@ -63,6 +64,7 @@ class App extends Component {
           borderStyle: 'solid',
           backgroundColor: "grey",
           top: 50,
+          left: 400,
           position: "absolute",
         }}
       >
@@ -73,7 +75,7 @@ class App extends Component {
             left: this.state.snakeHeadX,
             top: this.state.snakeHeadY,
             position: 'absolute',
-            backgroundColor: 'red',
+            backgroundColor: 'white',
           }}
         />
         <div
@@ -83,9 +85,20 @@ class App extends Component {
             left: this.state.foodX,
             top: this.state.foodY,
             position: "absolute",
-            backgroundColor: "green",
+            backgroundColor: "grey",
           }}
-        />
+          >
+        <div
+          style={{
+            width: 8,
+            height: 8,
+            left: 6,
+            top: 6,
+            backgroundColor: 'green',
+            position: 'absolute',
+          }}
+          />
+        </div>
         <div style={{
           left:720,
           position: "absolute",
