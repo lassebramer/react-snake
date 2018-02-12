@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import {handleTeleport} from "./Teleport.js"
 import {handleDirection} from "./Direction.js"
-
+import {tailNew} from './Tail.js'
 class App extends Component {
   constructor(props) {
     super(props)
@@ -13,7 +13,8 @@ class App extends Component {
       foodX: 300,
       foodY: 300,
       points: 0,
-      tail: [],
+      tailx: [],
+      taily: [],
     }
     
 
@@ -25,6 +26,8 @@ class App extends Component {
       pickLocation(this)
 
       show(this)
+
+      //tailPosition(this)
           }, 1000/15)
   }
   
@@ -32,7 +35,7 @@ class App extends Component {
 
   componentWillMount() {
     document.addEventListener('keydown', event => {
-      console.log(event.keyCode)
+     console.log(event.keyCode)
 
       switch (event.keyCode) {
         case RIGHT:
@@ -80,6 +83,16 @@ class App extends Component {
         />
         <div
           style={{
+            width: SNAKE_SIZE,
+            height: SNAKE_SIZE,
+            left: this.state.tailx[0],
+            top: this.state.taily[0],
+            position: 'absolute',
+            backgroundColor: 'white',
+          }}
+        />
+        <div
+          style={{
             width: FOOD_SIZE,
             height: FOOD_SIZE,
             left: this.state.foodX,
@@ -104,7 +117,8 @@ class App extends Component {
           position: "absolute",
           top: 15,
         }}
-        >{this.state.points} 
+        >
+        {this.state.points} 
         </div>
         <h1> Score: </h1> 
        
@@ -123,20 +137,38 @@ const LEFT = 37
 const UP = 38
 var startingPoints = 1
 
-
-
 function pickLocation(obj){
   if(obj.state.snakeHeadX === obj.state.foodX && obj.state.snakeHeadY === obj.state.foodY ) {
   obj.setState({foodX: scl*Math.floor (Math.random()*30 )});
   obj.setState({foodY: scl*Math.floor (Math.random()*30 )});
-  obj.setState({points: startingPoints++}) 
-  }}
+  obj.setState({points: startingPoints++});
+  tailNew(obj);
+  console.log(obj.state.tailx)
+  }};
 
 function show(obj){
   return (obj.state.points);
+};
+/*
+Okay, så først og fremmest så crasher det hele fuldstendigt når jeg prøver at kalde den her funktion på intervallet, er jeg kommet til at lave et infinite loop?
+Men mit egentlige problem er at jeg lige nu ændre på tailx og taily som vel dækker over helle arraysne. Det jeg tænkte var tailx[i], men det giver en fejl.
+function tailPosition (obj){
+  for (var i = -1; i<obj.state.tailx.length; i++) {
+    if (obj.state.snakeDirection === 'RIGHT') {
+      obj.setState({ tailx: obj.state.tailx[i] + 1*scl })
+    }
+    if (obj.state.snakeDirection === 'DOWN') {
+      obj.setState({ taily: obj.state.taily[i] + 1*scl })
+    }
+    if (obj.state.snakeDirection === 'LEFT') {
+      obj.setState({ tailx: obj.state.tailx[i] - 1*scl })
+    }
+    if (obj.state.snakeDirection === 'UP') {
+      obj.setState({ taily: obj.state.taily[i] - 1*scl })
+    }
+  } 
 }
-
-
-
-
+Jeg er også lidt i tvivl om hvordan hele render ideen fungere. Jeg skal have tegnet alle halerne. 
+Kan jeg lave en funktion endten i render eller i return der looper over arrayen lidt ligesom tailPosition?
+*/
 export default App
