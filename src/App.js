@@ -167,6 +167,8 @@ function tailPosition(obj) {
 
   console.log(`oldX: ${oldXList}`)
   console.log(`newX: ${newXList}`)
+
+  obj.setState({ tailx: newXList })
 }
 // Jeg er også lidt i tvivl om hvordan hele render ideen fungere. Jeg skal have tegnet alle halerne.
 // Kan jeg lave en funktion endten i render eller i return der looper over arrayen lidt ligesom tailPosition?
