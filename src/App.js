@@ -154,22 +154,19 @@ function show(obj) {
 // Okay, så først og fremmest så crasher det hele fuldstendigt når jeg prøver at kalde den her funktion på intervallet, er jeg kommet til at lave et infinite loop?
 // Men mit egentlige problem er at jeg lige nu ændre på tailx og taily som vel dækker over helle arraysne. Det jeg tænkte var tailx[i], men det giver en fejl.
 function tailPosition(obj) {
-  _.each(obj.state.tailx, tailxElement => {
-    console.log(tailxElement)
-
-    // if (obj.state.snakeDirection === 'RIGHT') {
-    //   obj.setState({ tailx: obj.state.tailx[i] + 1*scl })
-    // }
-    // if (obj.state.snakeDirection === 'DOWN') {
-    //   obj.setState({ taily: obj.state.taily[i] + 1*scl })
-    // }
-    // if (obj.state.snakeDirection === 'LEFT') {
-    //   obj.setState({ tailx: obj.state.tailx[i] - 1*scl })
-    // }
-    // if (obj.state.snakeDirection === 'UP') {
-    //   obj.setState({ taily: obj.state.taily[i] - 1*scl })
-    // }
+  const oldXList = obj.state.tailx
+  const newXList = _.map(oldXList, element => {
+    if (obj.state.snakeDirection === 'RIGHT') {
+      return element + 1 * scl
+    }
+    if (obj.state.snakeDirection === 'LEFT') {
+      return element - 1 * scl
+    }
+    return element
   })
+
+  console.log(`oldX: ${oldXList}`)
+  console.log(`newX: ${newXList}`)
 }
 // Jeg er også lidt i tvivl om hvordan hele render ideen fungere. Jeg skal have tegnet alle halerne.
 // Kan jeg lave en funktion endten i render eller i return der looper over arrayen lidt ligesom tailPosition?
