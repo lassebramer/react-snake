@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import './App.css'
-import {handleTeleport} from "./Teleport.js"
-import {handleDirection} from "./Direction.js"
-import {tailNew} from './Tail.js'
+import { handleTeleport } from './Teleport.js'
+import { handleDirection } from './Direction.js'
+import { tailNew } from './Tail.js'
 class App extends Component {
   constructor(props) {
     super(props)
@@ -16,7 +16,6 @@ class App extends Component {
       tailx: [],
       taily: [],
     }
-    
 
     setInterval(() => {
       handleDirection(this)
@@ -28,14 +27,12 @@ class App extends Component {
       show(this)
 
       //tailPosition(this)
-          }, 1000/15)
+    }, 1000 / 15)
   }
-  
-  
 
   componentWillMount() {
     document.addEventListener('keydown', event => {
-     console.log(event.keyCode)
+      console.log(event.keyCode)
 
       switch (event.keyCode) {
         case RIGHT:
@@ -56,7 +53,6 @@ class App extends Component {
     })
   }
   render() {
-    
     return (
       <div
         style={{
@@ -65,10 +61,10 @@ class App extends Component {
           borderWidth: 2,
           borderColor: 'red',
           borderStyle: 'solid',
-          backgroundColor: "grey",
+          backgroundColor: 'grey',
           top: 50,
           left: 400,
-          position: "absolute",
+          position: 'absolute',
         }}
       >
         <div
@@ -97,58 +93,61 @@ class App extends Component {
             height: FOOD_SIZE,
             left: this.state.foodX,
             top: this.state.foodY,
-            position: "absolute",
-            backgroundColor: "grey",
-          }}
-          >
-        <div
-          style={{
-            width: 8,
-            height: 8,
-            left: 6,
-            top: 6,
-            backgroundColor: 'green',
             position: 'absolute',
+            backgroundColor: 'grey',
           }}
+        >
+          <div
+            style={{
+              width: 8,
+              height: 8,
+              left: 6,
+              top: 6,
+              backgroundColor: 'green',
+              position: 'absolute',
+            }}
           />
         </div>
-        <div style={{
-          left:720,
-          position: "absolute",
-          top: 15,
-        }}
+        <div
+          style={{
+            left: 720,
+            position: 'absolute',
+            top: 15,
+          }}
         >
-        {this.state.points} 
+          {this.state.points}
         </div>
-        <h1> Score: </h1> 
-       
+        <h1> Score: </h1>
       </div>
-     
     )
   }
 }
 var scl = 20
-const SNAKE_SIZE = 1*scl
-const MAP_SIZE = 30*scl
-const FOOD_SIZE = 1*scl
+const SNAKE_SIZE = 1 * scl
+const MAP_SIZE = 30 * scl
+const FOOD_SIZE = 1 * scl
 const RIGHT = 39
 const DOWN = 40
 const LEFT = 37
 const UP = 38
 var startingPoints = 1
 
-function pickLocation(obj){
-  if(obj.state.snakeHeadX === obj.state.foodX && obj.state.snakeHeadY === obj.state.foodY ) {
-  obj.setState({foodX: scl*Math.floor (Math.random()*30 )});
-  obj.setState({foodY: scl*Math.floor (Math.random()*30 )});
-  obj.setState({points: startingPoints++});
-  tailNew(obj);
-  console.log(obj.state.tailx)
-  }};
+function pickLocation(obj) {
+  if (
+    obj.state.snakeHeadX === obj.state.foodX &&
+    obj.state.snakeHeadY === obj.state.foodY
+  ) {
+    obj.setState({ foodX: scl * Math.floor(Math.random() * 30) })
+    obj.setState({ foodY: scl * Math.floor(Math.random() * 30) })
+    obj.setState({ points: startingPoints++ })
+    tailNew(obj)
+    console.log(obj.state.tailx)
+  }
+}
 
-function show(obj){
-  return (obj.state.points);
-};
+function show(obj) {
+  return obj.state.points
+}
 /*
 Okay, så først og fremmest så crasher det hele fuldstendigt når jeg prøver at kalde den her funktion på intervallet, er jeg kommet til at lave et infinite loop?
 Men mit egentlige problem er at jeg lige nu ændre på tailx og taily som vel dækker over helle arraysne. Det jeg tænkte var tailx[i], men det giver en fejl.
