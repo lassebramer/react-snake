@@ -15,8 +15,7 @@ class App extends Component {
       foodX: 300,
       foodY: 300,
       snakeLength: 0,
-      tailx: [],
-      taily: []
+      tail: []
     };
 
     setInterval(() => {
@@ -71,20 +70,20 @@ class App extends Component {
   }
 
   drawTail() {
-    // return _.map()
-
-    return (
-      <div
-        style={{
-          width: SNAKE_SIZE,
-          height: SNAKE_SIZE,
-          left: this.state.tailx[0],
-          top: this.state.taily[0],
-          position: "absolute",
-          backgroundColor: "black"
-        }}
-      />
-    );
+    return _.map(this.state.tail, e => {
+      return (
+        <div
+          style={{
+            width: SNAKE_SIZE,
+            height: SNAKE_SIZE,
+            left: e.x,
+            top: e.y,
+            position: "absolute",
+            backgroundColor: "black"
+          }}
+        />
+      );
+    });
   }
 
   render() {
@@ -156,8 +155,6 @@ function pickLocation(obj) {
     obj.setState({ foodX: scl * Math.floor(Math.random() * 30) });
     obj.setState({ foodY: scl * Math.floor(Math.random() * 30) });
     obj.setState({ snakeLength: obj.state.snakeLength + 1 });
-
-    console.log(obj.state.tailx);
   }
 }
 
@@ -166,35 +163,35 @@ function show(obj) {
 }
 
 function tailPosition(obj) {
-  const oldXList = obj.state.tailx;
-  const newXList = _.map(oldXList, element => {
-    if (obj.state.snakeDirection === "RIGHT") {
-      return element + 1 * scl;
-    }
-    if (obj.state.snakeDirection === "LEFT") {
-      return element - 1 * scl;
-    }
-    return element;
+  // 1. insert new tail at previous head position
+
+  const newTail = obj.state.tail;
+  newTail.unshift({
+    x: obj.state.snakeHeadX,
+    y: obj.state.snakeHeadY
   });
+  newTail.pop();
+  obj.setState({ tail: newTail });
 
-  const oldYList = obj.state.taily;
-  const newYList = _.map(oldYList, element => {
-    if (obj.state.snakeDirection === "DOWN") {
-      return element + 1 * scl;
-    }
-    if (obj.state.snakeDirection === "UP") {
-      return element - 1 * scl;
-    }
-    return element;
-  });
+  // 2. remove the furthest back tail
 
-  console.log(`oldX: ${oldXList}`);
-  console.log(`newX: ${newXList}`);
-
-  obj.setState({ tailx: newXList });
-  obj.setState({ taily: newYList });
+  // const oldTailList = obj.state.tail;
+  // const newTailList = _.map(oldTailList, e => {
+  //   if (obj.state.snakeDirection === "RIGHT") {
+  //     return { x: e.x + 1 * scl, y: e.y };
+  //   }
+  //   if (obj.state.snakeDirection === "LEFT") {
+  //     return { x: e.x - 1 * scl, y: e.y };
+  //   }
+  //   if (obj.state.snakeDirection === "DOWN") {
+  //     return { x: e.x, y: e.y + 1 * scl };
+  //   }
+  //   if (obj.state.snakeDirection === "UP") {
+  //     return { x: e.x, y: e.y - 1 * scl };
+  //   }
+  //   return e;
+  // });
+  // obj.setState({ tail: newTailList });
 }
-// Jeg er også lidt i tvivl om hvordan hele render ideen fungere. Jeg skal have tegnet alle halerne.
-// Kan jeg lave en funktion endten i render eller i return der looper over arrayen lidt ligesom tailPosition?
 
 export default App;
