@@ -19,6 +19,7 @@ class App extends Component {
     };
 
     setInterval(() => {
+      isDead(this);
       tailNew(this);
       tailPosition(this);
 
@@ -29,7 +30,7 @@ class App extends Component {
       pickLocation(this);
 
       show(this);
-    }, 1000 / 10);
+    }, 1000 / 5);
   }
 
   componentWillMount() {
@@ -60,10 +61,13 @@ class App extends Component {
         style={{
           width: SNAKE_SIZE - 2,
           height: SNAKE_SIZE - 2,
-          left: this.state.snakeHeadX,
-          top: this.state.snakeHeadY,
+          left: this.state.snakeHeadX - 1,
+          top: this.state.snakeHeadY - 1,
           position: "absolute",
-          backgroundColor: "white"
+          backgroundColor: "white",
+          borderStyle: "solid",
+          borderColor: "grey",
+          borderWidth: 2
         }}
       />
     );
@@ -74,12 +78,15 @@ class App extends Component {
       return (
         <div
           style={{
-            width: SNAKE_SIZE,
-            height: SNAKE_SIZE,
-            left: e.x,
-            top: e.y,
+            width: SNAKE_SIZE - 2,
+            height: SNAKE_SIZE - 2,
+            left: e.x - 1,
+            top: e.y - 1,
             position: "absolute",
-            backgroundColor: "black"
+            backgroundColor: "black",
+            borderStyle: "solid",
+            borderColor: "grey",
+            borderWidth: 2
           }}
         />
       );
@@ -158,9 +165,7 @@ function pickLocation(obj) {
   }
 }
 
-function show(obj) {
-  return obj.state.points;
-}
+function show(obj) {}
 
 function tailPosition(obj) {
   // 1. insert new tail at previous head position
@@ -170,28 +175,24 @@ function tailPosition(obj) {
     x: obj.state.snakeHeadX,
     y: obj.state.snakeHeadY
   });
+  //2. remove last position
   newTail.pop();
   obj.setState({ tail: newTail });
+}
 
-  // 2. remove the furthest back tail
-
-  // const oldTailList = obj.state.tail;
-  // const newTailList = _.map(oldTailList, e => {
-  //   if (obj.state.snakeDirection === "RIGHT") {
-  //     return { x: e.x + 1 * scl, y: e.y };
-  //   }
-  //   if (obj.state.snakeDirection === "LEFT") {
-  //     return { x: e.x - 1 * scl, y: e.y };
-  //   }
-  //   if (obj.state.snakeDirection === "DOWN") {
-  //     return { x: e.x, y: e.y + 1 * scl };
-  //   }
-  //   if (obj.state.snakeDirection === "UP") {
-  //     return { x: e.x, y: e.y - 1 * scl };
-  //   }
-  //   return e;
-  // });
-  // obj.setState({ tail: newTailList });
+function isDead(obj) {
+  if (obj.state.snakeLength > 0) {
+    for (var i = 0; i < obj.state.tail.length; i++) {
+      console.log(obj.state.snakeLength);
+      if (
+        obj.state.snakeHeadX === obj.state.tail[i].x &&
+        obj.state.snakeHeadY === obj.state.tail[i].y
+      ) {
+        alert("You DIED!");
+        window.location.reload();
+      }
+    }
+  }
 }
 
 export default App;
