@@ -30,7 +30,7 @@ class App extends Component {
       pickLocation(this);
 
       show(this);
-    }, 1000 / 5);
+    }, 1000 / 15);
   }
 
   componentWillMount() {
@@ -95,19 +95,8 @@ class App extends Component {
 
   render() {
     return (
-      <div
-        style={{
-          height: MAP_SIZE,
-          width: MAP_SIZE,
-          borderWidth: 2,
-          borderColor: "red",
-          borderStyle: "solid",
-          backgroundColor: "grey",
-          top: 50,
-          left: 400,
-          position: "absolute"
-        }}
-      >
+      <main>
+        <div class="map" />
         {this.drawHead()}
         {this.drawTail()}
         <div
@@ -141,7 +130,7 @@ class App extends Component {
           {this.state.snakeLength}
         </div>
         <h1> Score: </h1>
-      </div>
+      </main>
     );
   }
 }
